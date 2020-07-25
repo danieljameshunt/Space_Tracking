@@ -4,28 +4,17 @@
      Geant4 - an Object-Oriented Toolkit for Simulation in HEP
      =========================================================
 
-                            Example B1
+                           Space Silicon
                             -----------
 
- This example demonstrates a very simple application where an energy
- deposit is accounted in user actions and their associated objects
- and a dose in a selected volume is calculated. 
-
+This code generates cosmic rays which move radially inwards to a silicon tracking plate,
+which then makes estimations as to the energy and particle type. Work in progress!
 	
  1- GEOMETRY DEFINITION
 	
    The geometry is constructed in the B1DetectorConstruction class.
-   The setup consists of a an envelope of box shape containing two
-   volumes: a spherical cone and a trapezoid.
+   The setup consists of a silicon tracking box, or two, and aluminium casing.
 
-   In this example we use  some common materials materials for medical
-   applications. The envelope is made of water and the two inner volumes
-   are made from tissue and bone materials.  
-   The materials are created with the help of the G4NistManager class,
-   which allows to build a material from the NIST database using their
-   names. All available materials can be found in the Geant4 User's Guide
-   for Application Developers, Appendix 10: Geant4 Materials Database.
-		
  2- PHYSICS LIST
  
    The particle's type and the physic processes which will be available
@@ -68,33 +57,11 @@
      
  5- DETECTOR RESPONSE
 
-   This example demonstrates a simple scoring implemented directly
-   in the user action classes.  Alternative ways of scoring via Geant4 classes 
-   can be found in the other examples.
-   
-   The energy deposited is collected step by step for a selected volume
-   in B1SteppingAction and accumulated event by event in B1EventAction.
-
-   At end of event, the value acummulated in B1EventAction is added in B1RunAction
-   and summed over the whole run (see B1EventAction::EndOfevent()).
-
-   Total dose deposited is computed at B1RunAction::EndOfRunAction(), 
-   and printed together with informations about the primary particle.
-   In multi-threading mode the energy accumulated in G4Accumulable objects per
-   workers is merged to the master in B1RunAction::EndOfRunAction() and the final
-   result is printed on the screen.
-   
-   G4Parameter<G4double> type instead of G4double type is used for the B1RunAction
-   data members in order to facilitate merging of the values accumulated on workers 
-   to the master.  Currently the accumulables have to be registered to G4AccumulablesManager
-   and G4AccumulablesManager::Merge() has to be called from the users code. This is planned
-   to be further simplified with a closer integration of G4Accumulable classes in
-   the Geant4 kernel next year.
-
-   An example of creating and computing new units (e.g., dose) is also shown 
-   in the class constructor. 
-
- The following paragraphs are common to all basic examples
+   SteppingAction records the following properties of the step:
+	- Particle mass
+	- Particle energy
+	- Volume name
+	- Energy deposition
 
  A- VISUALISATION
 
