@@ -47,15 +47,21 @@ B1RunAction::B1RunAction()
 : G4UserRunAction()
 {
 	auto analysisManager = G4AnalysisManager::Instance();
+	analysisManager->SetVerboseLevel(1);
+	analysisManager->SerFirstHistoId(1);
 	G4cout << "Using" << analysisManager->GetType() << G4endl;
 
 	// Create nTuple
-	analysisManager->CreateNtuple("Results", "Properties of interest");
-	analysisManager->CreateNtupleDColumn("Edep"); // ID = 0
-	analysisManager->CreateNtupleDColumn("Energy"); // ID = 1
-	analysisManager->CreateNtupleDColumn("Mass"); // ID = 2
-	analysisManager->CreateNTupleSColumn("VolName"); // ID = 3
-	analysisManager->CreateNTupleDColumn("Pos"); // ID = 4
+	analysisManager->CreateNtuple("simul", "energy");
+	// Energy deposition
+	analysisManager->CreateNtupleDColumn("Edep", fEdep); // ID = 0
+	analysisManager->CreateNtupleDColumn("Energy", fEnergy); // ID = 1
+	analysisManager->CreateNtupleDColumn("Mass", fMass); // ID = 2
+	analysisManager->CreateNTupleSColumn("VolName", fVolName); // ID = 3
+	analysisManager->CreateNTupleDColumn("PosX", fPosX); // ID = 4
+	analysisManager->CreateNTupleDColumn("PosY", fPosY); // ID = 4
+	analysisManager->CreateNTupleDColumn("PosZ", fPosZ); // ID = 4
+	analysisManager->FinishNtuple();
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
