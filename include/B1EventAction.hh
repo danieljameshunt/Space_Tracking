@@ -32,8 +32,6 @@
 
 #include "G4UserEventAction.hh"
 #include "globals.hh"
-#include "G4ThreeVector.hh"
-#include <vector>
 
 class B1RunAction;
 
@@ -49,21 +47,11 @@ class B1EventAction : public G4UserEventAction
     virtual void BeginOfEventAction(const G4Event* event);
     virtual void EndOfEventAction(const G4Event* event);
 
-    void AddEdep(G4double edep) { fEdep->push_back(edep); }
-    void AddMass(G4double mass) { fMass->push_back(mass); }
-    void AddEnergy(G4double energy) { fEnergy->push_back(energy); }
-    void AddVolName(G4String volname) { fVolName->push_back(volname); }
-    void AddPos(G4ThreeVector pos) { fPos->push_back(pos); }
-
+    void AddEdep(G4double edep) { fEdep += edep; }
 
   private:
     B1RunAction* fRunAction;
-    std::vector<G4double> *fEdep;
-    std::vector<G4double> *fEnergy;
-    std::vector<G4double> *fMass;
-    std::vector<G4String> *fVolName;
-    std::vector<G4ThreeVector> *fPos;
-
+    G4double     fEdep;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

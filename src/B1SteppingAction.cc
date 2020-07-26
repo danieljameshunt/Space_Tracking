@@ -68,22 +68,9 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step)
   // check if we are in scoring volume
   if (volume != fScoringVolume) return;
 
-  // collect properties of step: energy deposited, energy total, mass, position, and post step volume
+  // collect energy deposited in this step
   G4double edepStep = step->GetTotalEnergyDeposit();
-  G4double energy = step->GetPreStepPoint()->GetTotalEnergy();
-  G4double mass = step->GetPreStepPoint()->GetMass();
-  G4ThreeVector xyzStep = step->GetPreStepPoint()->GetPosition();
-  G4String postVolName = step->GetPostStepPoint()->GetPhysicalVolume()->GetName();
-
-  // Only record energy depositions
-  if (edepStep == 0) return;
-
-  fEventAction->AddEnergy(energy);
-  fEventAction->AddMass(mass);
-  fEventAction->AddVolName(postVolName);
-  fEventAction->AddPos(xyzStep);
-  fEventAction->AddEdep(edepStep);
+  fEventAction->AddEdep(edepStep);  
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-

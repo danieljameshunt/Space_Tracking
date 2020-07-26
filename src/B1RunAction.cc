@@ -24,93 +24,41 @@
 // ********************************************************************
 //
 //
-/// \file B1RunAction.cc
-/// \brief Implementation of the B1RunAction class
+/// \file B1EventAction.cc
+/// \brief Implementation of the B1EventAction class
 
+#include "B1EventAction.hh"
 #include "B1RunAction.hh"
-#include "B1PrimaryGeneratorAction.hh"
-#include "B1DetectorConstruction.hh"
-// #include "B1Run.hh"
 
+#include "G4Event.hh"
 #include "G4RunManager.hh"
-#include "G4Run.hh"
-#include "G4AccumulableManager.hh"
-#include "G4LogicalVolumeStore.hh"
-#include "G4LogicalVolume.hh"
-#include "G4UnitsTable.hh"
-#include "G4SystemOfUnits.hh"
-#include "B1Analysis.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-B1RunAction::B1RunAction()
-: G4UserRunAction()
-{
-	auto analysisManager = G4AnalysisManager::Instance();
-	G4cout << "Using" << analysisManager->GetType() << G4endl;
-
-	// Create nTuple
-	analysisManager->CreateNtuple("Results", "Properties of interest");
-	analysisManager->CreateNtupleDColumn("Edep"); // ID = 0
-	analysisManager->CreateNtupleDColumn("Energy"); // ID = 1
-	analysisManager->CreateNtupleDColumn("Mass"); // ID = 2
-	analysisManager->CreateNTupleSColumn("VolName"); // ID = 3
-	analysisManager->CreateNTupleDColumn("Pos"); // ID = 4
-}
+B1EventAction::B1EventAction(B1RunAction* runAction)
+: G4UserEventAction(),
+  fRunAction(runAction),
+  fEdep(0.)
+{} 
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-B1RunAction::~B1RunAction()
+B1EventAction::~B1EventAction()
 {}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void B1RunAction::BeginOfRunAction(const G4Run*)
-{ 
-  // inform the runManager to save random number seed
-  G4RunManager::GetRunManager()->SetRandomNumberStore(false);
-
+void B1EventAction::BeginOfEventAction(const G4Event*)
+{    
+  fEdep = 0.;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void B1RunAction::EndOfRunAction(const G4Run* run)
-{
-  G4int nofEvents = run->GetNumberOfEvent();
-  if (nofEvents == 0) return;  
-
-  // Run conditions
-  //  note: There is no primary generator action object for "master"
-  //        run manager for multi-threaded mode.
-  const B1PrimaryGeneratorAction* generatorAction
-   = static_cast<const B1PrimaryGeneratorAction*>
-     (G4RunManager::GetRunManager()->GetUserPrimaryGeneratorAction());
-  G4String runCondition;
-  if (generatorAction)
-  {
-    const G4ParticleGun* particleGun = generatorAction->GetParticleGun();
-    runCondition += particleGun->GetParticleDefinition()->GetParticleName();
-    runCondition += " of ";
-    G4double particleEnergy = particleGun->GetParticleEnergy();
-    runCondition += G4BestUnit(particleEnergy,"Energy");
-  }
-        
-  // Print
-  //  
-  if (IsMaster()) {
-    G4cout
-     << G4endl
-     << "--------------------End of Global Run-----------------------";
-  }
-  else {
-    G4cout
-     << G4endl
-     << "--------------------End of Local Run------------------------";
-  }
+void B1EventAction::EndOfEventAction(const G4Event*)
+{   
+  // accumulate statistics in run action
+  fRunAction->AddEdep(fEdep);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
