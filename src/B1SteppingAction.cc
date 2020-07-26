@@ -91,13 +91,13 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step)
 	postVol = 2;
 	}	
 
-  fEventAction->AddEnergy(energy);
-  fEventAction->AddMass(mass);
-  fEventAction->AddVolNo(postVol);
-  fEventAction->AddPosX(xyzStep.getX());
-  fEventAction->AddPosY(xyzStep.getY());
-  fEventAction->AddPosZ(xyzStep.getZ());
-  fEventAction->AddEdep(edepStep);
+  //fEventAction->AddEnergy(energy);
+  //fEventAction->AddMass(mass);
+  //fEventAction->AddVolNo(postVol);
+  //fEventAction->AddPosX(xyzStep.getX());
+  //fEventAction->AddPosY(xyzStep.getY());
+  //fEventAction->AddPosZ(xyzStep.getZ());
+  //fEventAction->AddEdep(edepStep);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

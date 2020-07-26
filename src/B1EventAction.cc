@@ -54,15 +54,16 @@ void B1EventAction::BeginOfEventAction(const G4Event*)
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void B1EventAction::EndOfEventAction(const G4Event*)
-{   
+{ 
+  G4cout << "End of Event" << G4endl;  
   // accumulate statistics in run action
-  fRunAction->AddEdep(fEdep);
-  fRunAction->AddMass(fMass);
-  fRunAction->AddEnergy(fEnergy);
-  fRunAction->AddVolNo(fVolNo);
-  fRunAction->AddPosX(fPosX);
-  fRunAction->AddPosY(fPosY);
-  fRunAction->AddPosZ(fPosZ);
+  //fRunAction->AddEdep(fEdep);
+  //fRunAction->AddMass(fMass);
+  //fRunAction->AddEnergy(fEnergy);
+  //fRunAction->AddVolNo(fVolNo);
+  //fRunAction->AddPosX(fPosX);
+  //fRunAction->AddPosY(fPosY);
+  //fRunAction->AddPosZ(fPosZ);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
