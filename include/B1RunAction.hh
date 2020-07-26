@@ -57,7 +57,7 @@ public:
   void AddEdep (std::vector<G4double> *edep){fEdep->insert(fEdep->end(), edep->begin(), edep->end());};
   void AddEnergy (std::vector<G4double> *energy){fEnergy->insert(fEnergy->end(), energy->begin(), energy->end());};
   void AddMass (std::vector<G4double> *mass){fMass->insert(fMass->end(), mass->begin(), mass->end());};
-  void AddVolName (std::vector<G4String> *volname){fVolName->insert(fVolName->end(), volname->begin(), volname->end());};
+  void AddVolNo (std::vector<G4double> *volno){fVolNo->insert(fVolNo->end(), volno->begin(), volno->end());};
   void AddPosX (std::vector<G4double> *posX){fPosX->insert(fPosX->end(), posX->begin(), posX->end());}; 
   void AddPosY (std::vector<G4double> *posY){fPosY->insert(fPosY->end(), posY->begin(), posY->end());};
   void AddPosZ (std::vector<G4double> *posZ){fPosZ->insert(fPosZ->end(), posZ->begin(), posZ->end());}; 
@@ -65,7 +65,7 @@ private:
   std::vector<G4double> *fEdep;
   std::vector<G4double> *fEnergy;
   std::vector<G4double> *fMass;
-  std::vector<G4String> *fVolName;
+  std::vector<G4double> *fVolNo;
   std::vector<G4double> *fPosX;
   std::vector<G4double> *fPosY;
   std::vector<G4double> *fPosZ;

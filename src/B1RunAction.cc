@@ -48,19 +48,19 @@ B1RunAction::B1RunAction()
 {
 	auto analysisManager = G4AnalysisManager::Instance();
 	analysisManager->SetVerboseLevel(1);
-	analysisManager->SerFirstHistoId(1);
+	analysisManager->SetFirstHistoId(1);
 	G4cout << "Using" << analysisManager->GetType() << G4endl;
 
 	// Create nTuple
 	analysisManager->CreateNtuple("simul", "energy");
 	// Energy deposition
-	analysisManager->CreateNtupleDColumn("Edep", fEdep); // ID = 0
-	analysisManager->CreateNtupleDColumn("Energy", fEnergy); // ID = 1
-	analysisManager->CreateNtupleDColumn("Mass", fMass); // ID = 2
-	analysisManager->CreateNTupleSColumn("VolName", fVolName); // ID = 3
-	analysisManager->CreateNTupleDColumn("PosX", fPosX); // ID = 4
-	analysisManager->CreateNTupleDColumn("PosY", fPosY); // ID = 4
-	analysisManager->CreateNTupleDColumn("PosZ", fPosZ); // ID = 4
+	analysisManager->CreateNtupleDColumn("Edep"); // ID = 0
+	analysisManager->CreateNtupleDColumn("Energy"); // ID = 1
+	analysisManager->CreateNtupleDColumn("Mass"); // ID = 2
+	analysisManager->CreateNtupleDColumn("VolNo"); // ID = 3
+	analysisManager->CreateNtupleDColumn("PosX"); // ID = 4
+	analysisManager->CreateNtupleDColumn("PosY"); // ID = 4
+	analysisManager->CreateNtupleDColumn("PosZ"); // ID = 4
 	analysisManager->FinishNtuple();
 }
 

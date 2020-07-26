@@ -59,7 +59,7 @@ void B1EventAction::EndOfEventAction(const G4Event*)
   fRunAction->AddEdep(fEdep);
   fRunAction->AddMass(fMass);
   fRunAction->AddEnergy(fEnergy);
-  fRunAction->AddVolName(fVolName);
+  fRunAction->AddVolNo(fVolNo);
   fRunAction->AddPosX(fPosX);
   fRunAction->AddPosY(fPosY);
   fRunAction->AddPosZ(fPosZ);

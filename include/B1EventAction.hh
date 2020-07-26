@@ -52,17 +52,21 @@ class B1EventAction : public G4UserEventAction
     void AddEdep(G4double edep) { fEdep->push_back(edep); }
     void AddMass(G4double mass) { fMass->push_back(mass); }
     void AddEnergy(G4double energy) { fEnergy->push_back(energy); }
-    void AddVolName(G4String volname) { fVolName->push_back(volname); }
-    void AddPos(G4ThreeVector pos) { fPos->push_back(pos); }
+    void AddPosX(G4double posX) { fPosX->push_back(posX); }
+    void AddPosY(G4double posY) { fPosY->push_back(posY); }
+    void AddPosZ(G4double posZ) { fPosZ->push_back(posZ); }
+    void AddVolNo(G4double volno) { fVolNo->push_back(volno); }
 
 
   private:
     B1RunAction* fRunAction;
-    std::vector<G4double> *fEdep;
-    std::vector<G4double> *fEnergy;
-    std::vector<G4double> *fMass;
-    std::vector<G4String> *fVolName;
-    std::vector<G4ThreeVector> *fPos;
+    std::vector<double> *fEdep;
+    std::vector<double> *fEnergy;
+    std::vector<double> *fMass;
+    std::vector<double> *fVolNo;
+    std::vector<double> *fPosX;
+    std::vector<double> *fPosY;
+    std::vector<double> *fPosZ;
 
 };
 

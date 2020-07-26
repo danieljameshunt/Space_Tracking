@@ -73,14 +73,27 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step)
   G4double energy = step->GetPreStepPoint()->GetTotalEnergy();
   G4double mass = step->GetPreStepPoint()->GetMass();
   G4ThreeVector xyzStep = step->GetPreStepPoint()->GetPosition();
-  G4String postVolName = step->GetPostStepPoint()->GetPhysicalVolume()->GetName();
+  G4String postVolName = step->GetPreStepPoint()->GetPhysicalVolume()->GetName();
+
+  G4cout << "Line of interest: " << edepStep << " " << energy << " " << mass << " ";
+  G4cout << " " << xyzStep.getX() << " " << xyzStep.getY() << " " << xyzStep.getZ() << " ";
+  G4cout << postVolName << G4endl;
 
   // Only record energy depositions
   if (edepStep == 0) return;
+	
+  double postVol = 0;
+
+  if (postVolName == "Tracker1"){
+	postVol = 1;
+	}
+  if (postVolName == "Tracker2"){
+	postVol = 2;
+	}	
 
   fEventAction->AddEnergy(energy);
   fEventAction->AddMass(mass);
-  fEventAction->AddVolName(postVolName);
+  fEventAction->AddVolNo(postVol);
   fEventAction->AddPosX(xyzStep.getX());
   fEventAction->AddPosY(xyzStep.getY());
   fEventAction->AddPosZ(xyzStep.getZ());
