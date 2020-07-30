@@ -67,7 +67,7 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step)
 
   G4LogicalVolume* volumepost = volumepre;
   // get volume of the current step
-  if(step->GetPostStepPoint()->GetTouchableHandle()){
+  if(step->GetPostStepPoint()->GetTouchableHandle()->GetVolume() != NULL){
   G4LogicalVolume* volumepost
     = step->GetPostStepPoint()->GetTouchableHandle()
       ->GetVolume()->GetLogicalVolume();
