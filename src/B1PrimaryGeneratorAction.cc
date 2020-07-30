@@ -77,8 +77,6 @@ void B1PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   // In order to avoid dependence of PrimaryGeneratorAction
   // on DetectorConstruction class we get Envelope volume
   // from G4LogicalVolumeStore.
-  
-
 
   fParticleGun->GeneratePrimaryVertex(anEvent);
 }
