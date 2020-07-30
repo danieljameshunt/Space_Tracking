@@ -75,7 +75,7 @@ void Analysis(){
 	  double X2, Y2, Z2 = 0;
 	  // Check for layer 1 or layer 2, make weighted mean of XYZ, and total energy deposition
 	  for(int i = 0; i < eDep.size(); i++){
-	    if(strcmp(layerpre[i].c_str(), "Tracker1") == 0){
+	    if(strcmp(layerpost[i].c_str(), "Tracker1") == 0){
 	      X1+= x[i]*eDep[i];
 	      Y1 += y[i]*eDep[i];
 	      Z1 += z[i]*eDep[i];
@@ -86,7 +86,7 @@ void Analysis(){
 		IncidentE1 += energy[i];
 	      }
 	    }
-	    if(strcmp(layerpre[i].c_str(), "Tracker2") == 0){
+	    if(strcmp(layerpost[i].c_str(), "Tracker2") == 0){
 	      X2+= x[i]*eDep[i];
 	      Y2 += y[i]*eDep[i];
 	      Z2 += z[i]*eDep[i];
