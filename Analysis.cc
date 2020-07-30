@@ -22,6 +22,9 @@ void Analysis(){
   vector<double> mass;
 
   // Parameters taken for each event for tracker 1 and 2
+  vector<double> NoIncident1;
+  vector<double> NoIncident2;
+  vector<double> IncidentE;
   vector<double> DEP1;
   vector<double> xHit1;
   vector<double> yHit1;
@@ -36,6 +39,10 @@ void Analysis(){
   TH2D *Plane1 = new TH2D("XY_1", "XY_1", 100, -0.01, 0.01, 100, -0.01, 0.01);
   TH2D *Plane2 = new TH2D("XY_1", "XY_1", 100, -0.01, 0.01, 100, -0.01, 0.01);
   TH2D *Energies = new TH2D("E", "E", 100, 0., 15., 100, 0., 15.);
+  TH2D *Bethe1 = new TH2D("Bethe1", "Bethe1", 100, 0., 0., 100, 0., 0.);
+  TH2D *Bethe2 = new TH2D("Bethe1", "Bethe1", 100, 0., 0., 100, 0., 0.);
+  TH1D *Count1 = new TH1D("Count_1", "Count_1", 100, 0., 0.);
+  TH1D *Count2 = new TH1D("Count_2", "Count_2", 100, 0., 0.);
   
   while (getline(infile, line))
     {
@@ -58,6 +65,10 @@ void Analysis(){
 	  // End event analysis
 	  cout << "End of event!" << endl;
 	  analysis = false;
+	  double Counter1 = 0;
+	  double Counter2 = 0;
+	  double IncidentE1 = 0;
+	  double IncidentE2 = 0;
 	  double Deposited1 = 0;
 	  double Deposited2 = 0;
 	  double X1, Y1, Z1 = 0;
@@ -69,12 +80,22 @@ void Analysis(){
 	      Y1 += y[i]*eDep[i];
 	      Z1 += z[i]*eDep[i];
 	      Deposited1 += eDep[i];
+	      if(strcmp(layerpre[i].c_str(), layerpost[i].c_str()) != 0){
+		cout << layerpre[i] << " " << layerpost[i] << endl;
+		Counter1 += 1;
+		IncidentE1 += energy[i];
+	      }
 	    }
 	    if(strcmp(layerpre[i].c_str(), "Tracker2") == 0){
 	      X2+= x[i]*eDep[i];
 	      Y2 += y[i]*eDep[i];
 	      Z2 += z[i]*eDep[i];
 	      Deposited2 += eDep[i];
+	      if(strcmp(layerpre[i].c_str(), layerpost[i].c_str()) != 0){
+		cout << layerpre[i] << " " << layerpost[i] << endl;
+		Counter2 += 1;
+		IncidentE2 += energy[i];
+	      }
 	    }
 	  }
 	  // Weight them means
@@ -101,6 +122,12 @@ void Analysis(){
 
 	  // E1 E2 - the important one!!!! Let's see if there's a pattern!!!
 	  Energies->Fill(Deposited1, Deposited2);
+
+	  Count1->Fill(Counter1);
+	  Count2->Fill(Counter2);
+
+	  Bethe1->Fill(IncidentE1, Deposited1);
+	  Bethe2->Fill(IncidentE2, Deposited2);
 	  
 	  eDep.clear();
 	  energy.clear();
@@ -140,4 +167,12 @@ void Analysis(){
   C->SaveAs("./XY2.png");
   Energies->Draw();
   C->SaveAs("./E1E2.png");
+  Count1->Draw();
+  C->SaveAs("./Count1.png");
+  Count2->Draw();
+  C->SaveAs("./Count2.png");
+  Bethe1->Draw();
+  C->SaveAs("./Bethe1.png");
+  Bethe2->Draw();
+  C->SaveAs("./Bethe2.png");
 }
