@@ -93,10 +93,11 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
   // Shape 1
   //  
   G4Material* G4_Si = nist->FindOrBuildMaterial("G4_Si");
-  G4ThreeVector posTrack1 = G4ThreeVector(0, 0, 0);
-  G4double Si_Len = 10*cm;
-  G4double Si_Wid = 10*cm;
-  G4double Si_Dep = 10*cm;
+  G4ThreeVector posTrack1 = G4ThreeVector(0, 0, 10*mm);
+  G4ThreeVector posTrack2 = G4ThreeVector(0, 0, -10*mm);
+  G4double Si_Len = 10*mm;
+  G4double Si_Wid = 10*mm;
+  G4double Si_Dep = 10*mm;
 
   G4Box* tracker =    
     new G4Box("tracker",                       //its name
@@ -117,7 +118,15 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
                     false,                   //no boolean operation
                     0,                       //copy number
                     checkOverlaps);          //overlaps checking
-                
+  new G4PVPlacement(0,                       //no rotation
+                    posTrack2,                    //at position
+                    trackerLogical,             //its logical volume
+                    "Tracker2",                //its name
+                    logicWorld,                //its mother  volume
+                    false,                   //no boolean operation
+                    0,                       //copy number
+                    checkOverlaps);          //overlaps checking
+
   // Set Shape2 as scoring volume
   //
   fScoringVolume = trackerLogical;
