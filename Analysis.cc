@@ -11,6 +11,7 @@ void Analysis(){
   string line;
   string read = "G4WT";
   bool analysis = false;
+  // Parameters taken for all steps in the event
   vector<double> eDep;
   vector<double> energy;
   vector<string> layerpre;
@@ -19,6 +20,8 @@ void Analysis(){
   vector<double> y;
   vector<double> z;
   vector<double> mass;
+
+  // Parameters taken for each event for tracker 1 and 2
   vector<double> DEP1;
   vector<double> xHit1;
   vector<double> yHit1;
@@ -27,14 +30,17 @@ void Analysis(){
   vector<double> xHit2;
   vector<double> yHit2;
   vector<double> zHit2;
+
+  // Histograms for XY on plane 1, XY on plane 2, and E1 against E2
   TCanvas *C = new TCanvas();
-  TH2D *Plane1 = new TH2D("XY_1", "XY_1", 100, 0., 0., 100, 0., 0.);
-  TH2D *Plane2 = new TH2D("XY_1", "XY_1", 100, 0., 0., 100, 0., 0.);
-  TH2D *Energies = new TH2D("E", "E", 100, 0., 0., 100, 0., 0.);
+  TH2D *Plane1 = new TH2D("XY_1", "XY_1", 100, -0.01, 0.01, 100, -0.01, 0.01);
+  TH2D *Plane2 = new TH2D("XY_1", "XY_1", 100, -0.01, 0.01, 100, -0.01, 0.01);
+  TH2D *Energies = new TH2D("E", "E", 100, 0., 15., 100, 0., 15.);
   
   while (getline(infile, line))
     {
-      cout << line << endl;
+      // Read the text file, take lines as an array called values
+      //cout << line << endl;
       size_t toRead = line.find(read); 
       if(toRead == 0){
 	istringstream iss(line);
@@ -43,17 +49,20 @@ void Analysis(){
 	     istream_iterator<string>(),
 	     back_inserter(values));
 	if(values.size() > 3){
+	  // If there's a line called end of event, we run the end event analysis
 	  if(values[2] == "End"){
 	    analysis = true;
 	  }
 	}
 	if(analysis){
+	  // End event analysis
 	  cout << "End of event!" << endl;
 	  analysis = false;
 	  double Deposited1 = 0;
 	  double Deposited2 = 0;
 	  double X1, Y1, Z1 = 0;
 	  double X2, Y2, Z2 = 0;
+	  // Check for layer 1 or layer 2, make weighted mean of XYZ, and total energy deposition
 	  for(int i = 0; i < eDep.size(); i++){
 	    if(strcmp(layerpre[i].c_str(), "Tracker1") == 0){
 	      X1+= x[i]*eDep[i];
@@ -68,6 +77,7 @@ void Analysis(){
 	      Deposited2 += eDep[i];
 	    }
 	  }
+	  // Weight them means
 	  X1 /= Deposited1;
 	  Y1 /= Deposited1;
 	  Z1 /= Deposited1;
@@ -75,8 +85,10 @@ void Analysis(){
 	  yHit1.push_back(Y1);
 	  zHit1.push_back(Z1);
 	  DEP1.push_back(Deposited1);
+	  // XY plane 1
 	  Plane1->Fill(X1, Y1);
 
+	  // Weight them means again
 	  X2 /= Deposited2;
 	  Y2 /= Deposited2;
 	  Z2 /= Deposited2;
@@ -84,8 +96,10 @@ void Analysis(){
 	  yHit2.push_back(Y2);
 	  zHit2.push_back(Z2);
 	  DEP2.push_back(Deposited2);
+	  // XY plane 2
 	  Plane2->Fill(X2, Y2);
 
+	  // E1 E2 - the important one!!!! Let's see if there's a pattern!!!
 	  Energies->Fill(Deposited1, Deposited2);
 	  
 	  eDep.clear();
@@ -99,7 +113,7 @@ void Analysis(){
 	}
 	else{
 	  if(values.size() > 10){
-	    cout << values[2] << endl;
+	    // For lines that aren't comments or the end of an event, put values into vectors
 	    //cout << line << endl;
 	    //cout << values[5] << endl;
 	    eDep.push_back(stod(values[5]));
@@ -121,9 +135,9 @@ void Analysis(){
       }
     }
   Plane1->Draw();
-  C->Show();
+  C->SaveAs("./XY1.png");
   Plane2->Draw();
-  C->Show();
+  C->SaveAs("./XY2.png");
   Energies->Draw();
-  C->Show();
+  C->SaveAs("./E1E2.png");
 }
