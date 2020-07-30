@@ -13,17 +13,24 @@ void Analysis(){
   bool analysis = false;
   vector<double> eDep;
   vector<double> energy;
-  vector<string> layer;
+  vector<string> layerpre;
+  vector<string> layerpost;
   vector<double> x;
   vector<double> y;
   vector<double> z;
   vector<double> mass;
-  vector<double> DEP;
-  vector<double> xHit;
-  vector<double> yHit;
-  vector<double> zHit;
+  vector<double> DEP1;
+  vector<double> xHit1;
+  vector<double> yHit1;
+  vector<double> zHit1;
+  vector<double> DEP2;
+  vector<double> xHit2;
+  vector<double> yHit2;
+  vector<double> zHit2;
   TCanvas *C = new TCanvas();
-  TH2D *Plane = new TH2D("XY", "XY", 100, 0., 0., 100, 0., 0.);
+  TH2D *Plane1 = new TH2D("XY_1", "XY_1", 100, 0., 0., 100, 0., 0.);
+  TH2D *Plane2 = new TH2D("XY_1", "XY_1", 100, 0., 0., 100, 0., 0.);
+  TH2D *Energies = new TH2D("E", "E", 100, 0., 0., 100, 0., 0.);
   
   while (getline(infile, line))
     {
@@ -36,34 +43,55 @@ void Analysis(){
 	     istream_iterator<string>(),
 	     back_inserter(values));
 	if(values.size() > 3){
-	if(values[2] == "End"){
-	  analysis = true;
-	}
+	  if(values[2] == "End"){
+	    analysis = true;
+	  }
 	}
 	if(analysis){
 	  cout << "End of event!" << endl;
 	  analysis = false;
-	  double Deposited = 0;
-	  double X = 0;
-	  double Y = 0;
-	  double Z = 0;
+	  double Deposited1 = 0;
+	  double Deposited2 = 0;
+	  double X1, Y1, Z1 = 0;
+	  double X2, Y2, Z2 = 0;
 	  for(int i = 0; i < eDep.size(); i++){
-	    X+= x[i]*eDep[i];
-	    Y += y[i]*eDep[i];
-	    Z += z[i]*eDep[i];
-	    Deposited += eDep[i];
+	    if(strcmp(layerpre[i].c_str(), "Tracker1") == 0){
+	      X1+= x[i]*eDep[i];
+	      Y1 += y[i]*eDep[i];
+	      Z1 += z[i]*eDep[i];
+	      Deposited1 += eDep[i];
+	    }
+	    if(strcmp(layerpre[i].c_str(), "Tracker2") == 0){
+	      X2+= x[i]*eDep[i];
+	      Y2 += y[i]*eDep[i];
+	      Z2 += z[i]*eDep[i];
+	      Deposited2 += eDep[i];
+	    }
 	  }
-	  X /= Deposited;
-	  Y /= Deposited;
-	  Z /= Deposited;
-	  xHit.push_back(X);
-	  yHit.push_back(Y);
-	  zHit.push_back(Z);
-	  DEP.push_back(Deposited);
-	  Plane->Fill(X, Y);
+	  X1 /= Deposited1;
+	  Y1 /= Deposited1;
+	  Z1 /= Deposited1;
+	  xHit1.push_back(X1);
+	  yHit1.push_back(Y1);
+	  zHit1.push_back(Z1);
+	  DEP1.push_back(Deposited1);
+	  Plane1->Fill(X1, Y1);
+
+	  X2 /= Deposited2;
+	  Y2 /= Deposited2;
+	  Z2 /= Deposited2;
+	  xHit2.push_back(X2);
+	  yHit2.push_back(Y2);
+	  zHit2.push_back(Z2);
+	  DEP2.push_back(Deposited2);
+	  Plane2->Fill(X2, Y2);
+
+	  Energies->Fill(Deposited1, Deposited2);
+	  
 	  eDep.clear();
 	  energy.clear();
-	  layer.clear();
+	  layerpre.clear();
+	  layerpost.clear();
 	  x.clear();
 	  y.clear();
 	  z.clear();
@@ -86,11 +114,16 @@ void Analysis(){
 	    //cout << values[10] << endl;
 	    z.push_back(stod(values[10]));
 	    //cout << values[11] << endl;
-	    layer.push_back(values[11]);
+	    layerpre.push_back(values[11]);
+	    layerpost.push_back(values[12]);
 	  }
 	}
       }
     }
-Plane->Draw();
-C->Show();
+  Plane1->Draw();
+  C->Show();
+  Plane2->Draw();
+  C->Show();
+  Energies->Draw();
+  C->Show();
 }
