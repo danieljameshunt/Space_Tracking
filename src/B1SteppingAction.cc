@@ -73,7 +73,9 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step)
       ->GetVolume()->GetLogicalVolume();
   }
   // check if we are in scoring volume
-  if ((volumepre != fScoringVolume)&&(volumepost != fScoringVolume)) return;
+  // if ((volumepre != fScoringVolume)&&(volumepost != fScoringVolume)) return;
+
+  if(step->GetPostStepPoint()->GetTouchableHandle()->GetVolume() == NULL) return;
 
   // collect properties of step: energy deposited, energy total, mass, position, and post step volume
   G4double edepStep = step->GetTotalEnergyDeposit();
