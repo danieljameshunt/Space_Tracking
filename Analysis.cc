@@ -40,7 +40,7 @@ void Analysis(){
   TH2D *Plane2 = new TH2D("XY_1", "XY_1", 100, -0.01, 0.01, 100, -0.01, 0.01);
   TH2D *Energies = new TH2D("E", "E", 100, 0., 15., 100, 0., 15.);
   TH2D *Bethe1 = new TH2D("Bethe1", "Bethe1", 100, 0., 0., 100, 0., 0.);
-  TH2D *Bethe2 = new TH2D("Bethe1", "Bethe1", 100, 0., 0., 100, 0., 0.);
+  TH2D *Bethe2 = new TH2D("Bethe2", "Bethe2", 100, 0., 0., 100, 0., 0.);
   TH1D *Count1 = new TH1D("Count_1", "Count_1", 100, 0., 0.);
   TH1D *Count2 = new TH1D("Count_2", "Count_2", 100, 0., 0.);
   
@@ -127,7 +127,8 @@ void Analysis(){
 	  Count2->Fill(Counter2);
 
 	  Bethe1->Fill(IncidentE1, Deposited1);
-	  Bethe2->Fill(IncidentE2, Deposited2);
+	  //Bethe2->Fill(IncidentE2, Deposited2);
+	  Bethe2->Fill(energy[0], Deposited2);
 	  
 	  eDep.clear();
 	  energy.clear();

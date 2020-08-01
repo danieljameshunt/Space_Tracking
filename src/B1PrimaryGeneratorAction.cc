@@ -57,6 +57,11 @@ B1PrimaryGeneratorAction::B1PrimaryGeneratorAction()
   fParticleGun->SetParticleDefinition(particle);
   fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0.,0.,1.));
   G4double energy = ((G4UniformRand()*200)+100)*GeV;
+  G4double m = -1; // -2.5 for alphas, -1 for protons, -3.6 and exponential for electrons
+  // Protons and alphas
+  //G4double energy = pow((1-G4UniformRand()), (1/(m-1)))*MeV;
+  // For electrons
+  G4double energy = gauss(-m)*MeV;
   fParticleGun->SetParticleEnergy(energy);
 }
 
