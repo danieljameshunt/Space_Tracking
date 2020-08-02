@@ -39,6 +39,8 @@
 #include "G4LogicalVolume.hh"
 #include "G4PVPlacement.hh"
 #include "G4SystemOfUnits.hh"
+#include "G4EqMagElectricField.hh"
+#include "G4UniformElectricField.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -93,22 +95,35 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
   // Shape 1
   //  
   G4Material* G4_Si = nist->FindOrBuildMaterial("G4_Si");
-  G4ThreeVector posTrack1 = G4ThreeVector(0, 0, 10*mm);
-  G4ThreeVector posTrack2 = G4ThreeVector(0, 0, -10*mm);
-  G4double Si_Len = 10*mm;
-  G4double Si_Wid = 10*mm;
-  G4double Si_Dep = 10*mm;
+  G4ThreeVector posTrack1 = G4ThreeVector(0, 0, -5*mm);
+  G4ThreeVector posTrack2 = G4ThreeVector(0, 0, 5*mm);
+  G4double Si_Len = 100*mm;
+  G4double Si_Wid = 100*mm;
+  G4double Si_Dep = 650*um;
 
   G4Box* tracker =    
     new G4Box("tracker",                       //its name
 	      0.5*Si_Len, 0.5*Si_Wid, 0.5*Si_Dep);     //its size
-    
+
+  G4double fieldValue = 15*V;
   
+  G4UniformMagField* magField
+      = new G4UniformMagField(G4ThreeVector(0.,0.,fieldValue));
+
+  G4FieldManager* fieldMgr
+      = G4TransportationManager::GetTransportationManager()
+        ->GetFieldManager();
+
+  fieldMgr->SetDetectorField(magField);
+  fieldMgr->CreateChordFinder(magField);
   
   G4LogicalVolume* trackerLogical =                         
     new G4LogicalVolume(tracker,         //its solid
                         G4_Si,          //its material
                         "tracker");           //its name
+
+  G4bool allLocal = true;       
+  logicVolumeWithField->SetFieldManager(fieldMgr, allLocal);
                
   new G4PVPlacement(0,                       //no rotation
                     posTrack1,                    //at position
