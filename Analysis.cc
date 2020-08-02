@@ -36,9 +36,9 @@ void Analysis(){
 
   // Histograms for XY on plane 1, XY on plane 2, and E1 against E2
   TCanvas *C = new TCanvas();
-  TH2D *Plane1 = new TH2D("XY_1", "XY_1", 100, -0.01, 0.01, 100, -0.01, 0.01);
-  TH2D *Plane2 = new TH2D("XY_1", "XY_1", 100, -0.01, 0.01, 100, -0.01, 0.01);
-  TH2D *Energies = new TH2D("E", "E", 100, 0., 15., 100, 0., 15.);
+  TH2D *Plane1 = new TH2D("XY_1", "XY_1", 100, 0., 0., 100, 0., 0.);
+  TH2D *Plane2 = new TH2D("XY_2", "XY_2", 100, -10, 10., 100, -10, 10);
+  TH2D *Energies = new TH2D("E", "E", 100, -0.1, 0.1, 100, 0., 0.);
   TH2D *Bethe1 = new TH2D("Bethe1", "Bethe1", 100, 0., 0., 100, 0., 0.);
   TH2D *Bethe2 = new TH2D("Bethe2", "Bethe2", 100, 0., 0., 100, 0., 0.);
   TH1D *Count1 = new TH1D("Count_1", "Count_1", 100, 0., 0.);
@@ -99,9 +99,11 @@ void Analysis(){
 	    }
 	  }
 	  // Weight them means
+	  if(Deposited1 != 0){
 	  X1 /= Deposited1;
 	  Y1 /= Deposited1;
 	  Z1 /= Deposited1;
+	  }
 	  xHit1.push_back(X1);
 	  yHit1.push_back(Y1);
 	  zHit1.push_back(Z1);
@@ -110,9 +112,11 @@ void Analysis(){
 	  Plane1->Fill(X1, Y1);
 
 	  // Weight them means again
+	  if(Deposited2 != 0){
 	  X2 /= Deposited2;
 	  Y2 /= Deposited2;
 	  Z2 /= Deposited2;
+	  }
 	  xHit2.push_back(X2);
 	  yHit2.push_back(Y2);
 	  zHit2.push_back(Z2);
@@ -129,6 +133,9 @@ void Analysis(){
 	  Bethe1->Fill(IncidentE1, Deposited1);
 	  //Bethe2->Fill(IncidentE2, Deposited2);
 	  Bethe2->Fill(energy[0], Deposited2);
+
+	  cout << X1 << " " << Y1 << " " << Deposited1 << " " << Counter1 << endl;
+	  cout << X2 << " " << Y2 << " " << Deposited2 << " " << Counter2 << endl;
 	  
 	  eDep.clear();
 	  energy.clear();

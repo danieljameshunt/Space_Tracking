@@ -68,7 +68,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
   //
   G4double world_sizeXY = 10*m;
   G4double world_sizeZ  = 10*m;
-  G4Material* world_mat = nist->FindOrBuildMaterial("G4_AIR");
+  G4Material* world_mat = nist->FindOrBuildMaterial("G4_Galactic");
   
   G4Box* solidWorld =    
     new G4Box("World",                       //its name
