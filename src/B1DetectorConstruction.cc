@@ -100,7 +100,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
   G4ThreeVector posTrack2 = G4ThreeVector(0, 0, 5*mm);
   G4double Si_Len = 100*mm;
   G4double Si_Wid = 100*mm;
-  G4double Si_Dep = 650*um;
+  G4double Si_Dep = 20*um;
 
   G4Box* tracker =    
     new G4Box("tracker",                       //its name
