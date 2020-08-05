@@ -56,13 +56,6 @@ B1PrimaryGeneratorAction::B1PrimaryGeneratorAction()
     = particleTable->FindParticle(particleName="gamma");
   fParticleGun->SetParticleDefinition(particle);
   fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0.,0.,1.));
-  // G4double energy = ((G4UniformRand()*200)+100)*GeV;
-  G4double m = -1; // -2.5 for alphas, -1 for protons, -3.6 and exponential for electrons
-  // Protons and alphas
-  G4double energy = pow((1-G4UniformRand()), (1/(m-1)))*MeV;
-  // For electrons
-  // G4double energy = (std::log(1-G4UniformRand())/(-m))*MeV;
-  fParticleGun->SetParticleEnergy(energy);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -82,6 +75,13 @@ void B1PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   // In order to avoid dependence of PrimaryGeneratorAction
   // on DetectorConstruction class we get Envelope volume
   // from G4LogicalVolumeStore.
+
+  G4double m = -1; // -2.5 for alphas, -1 for protons, -3.6 and exponential for electrons
+  // Protons and alphas
+  G4double energy = pow((1-G4UniformRand()), (1/(m-1)))*MeV;
+  // For electrons
+  // G4double energy = (std::log(1-G4UniformRand())/(-m))*MeV;
+  fParticleGun->SetParticleEnergy(energy);
 
   fParticleGun->GeneratePrimaryVertex(anEvent);
 }
