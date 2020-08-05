@@ -30,7 +30,7 @@
 #include "B1SteppingAction.hh"
 #include "B1EventAction.hh"
 #include "B1DetectorConstruction.hh"
-
+#include "G4SystemOfUnits.hh"
 #include "G4Step.hh"
 #include "G4Event.hh"
 #include "G4RunManager.hh"
@@ -85,8 +85,8 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step)
   G4String preVolName = step->GetPreStepPoint()->GetPhysicalVolume()->GetName();
   G4String postVolName = step->GetPostStepPoint()->GetPhysicalVolume()->GetName();
 
-  G4cout << "Line of interest: " << edepStep << " " << energy << " " << mass << " ";
-  G4cout << " " << xyzStep.getX() << " " << xyzStep.getY() << " " << xyzStep.getZ() << " ";
+  G4cout << "Line of interest: " << edepStep*MeV << " " << energy*MeV << " " << mass*MeV << " ";
+  G4cout << " " << xyzStep.getX()*mm << " " << xyzStep.getY()*mm << " " << xyzStep.getZ()*mm << " ";
   G4cout << preVolName << " " << postVolName << G4endl;
 	
   double postVol = 0;

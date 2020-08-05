@@ -81,6 +81,7 @@ void B1PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   G4double energy = pow((1-G4UniformRand()), (1/(m-1)))*MeV;
   // For electrons
   // G4double energy = (std::log(1-G4UniformRand())/(-m))*MeV;
+  G4cout << "Energy: " << energy << G4endl;
   fParticleGun->SetParticleEnergy(energy);
 
   fParticleGun->GeneratePrimaryVertex(anEvent);
