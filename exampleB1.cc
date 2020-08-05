@@ -43,6 +43,7 @@
 #include "G4UIExecutive.hh"
 
 #include "Randomize.hh"
+#include "B1ElectricFieldSetup.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 

@@ -7,7 +7,7 @@
 /event/verbose 0
 
 # proton 300 GeV 
-/gun/particle alpha
+/gun/particle proton
 /gun/position 0. 0. -5
 #
 /run/printProgress 100
