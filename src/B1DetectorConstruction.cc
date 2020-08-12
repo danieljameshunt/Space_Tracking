@@ -72,7 +72,8 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
   G4double world_sizeXY = 10*m;
   G4double world_sizeZ  = 10*m;
   G4Material* world_mat = nist->FindOrBuildMaterial("G4_Galactic");
-  
+
+  // These boxes need to be two different sizes, but the scoring volume only allows one logical volume! Maybe remove this from steppingaction, just make the check one of volume name?  
   G4Box* solidWorld =    
     new G4Box("World",                       //its name
        0.5*world_sizeXY, 0.5*world_sizeXY, 0.5*world_sizeZ);     //its size
@@ -111,10 +112,10 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
                         G4_Si,          //its material
                         "tracker");           //its name
 
-  B1ElectricFieldSetup *emFieldSetup = new B1ElectricFieldSetup();
+  // B1ElectricFieldSetup *emFieldSetup = new B1ElectricFieldSetup();
   
-  G4bool allLocal = true;       
-  trackerLogical->SetFieldManager(emFieldSetup->GetLocalFieldManager(), allLocal);
+  // G4bool allLocal = true;       
+  // trackerLogical->SetFieldManager(emFieldSetup->GetLocalFieldManager(), allLocal);
                
   new G4PVPlacement(0,                       //no rotation
                     posTrack1,                    //at position

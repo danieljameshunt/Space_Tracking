@@ -98,13 +98,27 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step)
 	postVol = 2;
 	}	
 
-  //fEventAction->AddEnergy(energy);
-  //fEventAction->AddMass(mass);
-  //fEventAction->AddVolNo(postVol);
-  //fEventAction->AddPosX(xyzStep.getX());
-  //fEventAction->AddPosY(xyzStep.getY());
-  //fEventAction->AddPosZ(xyzStep.getZ());
-  //fEventAction->AddEdep(edepStep);
+	
+  fEventAction->AddEnergy(energy);
+  fEventAction->AddMass(mass);
+
+  // Add a way here of getting the initial energy! Maybe it needs to be in PrimaryGeneratorAction?
+  // Also add a way of adding the number of unique particles in the volumes! God knows how to do this! Do we need to do this? Low priority!
+  // Also also these functions don't exist yet to make sure to add them fully
+
+  if(postVol == 1){
+  fEventAction->AddEdep1(edepStep);
+  fEventAction->AddPosX1(xyzStep.getX());
+  fEventAction->AddPosY1(xyzStep.getY());
+  fEventAction->AddPosZ1(xyzStep.getZ());
+  }
+  else if(postVol == 2){
+  fEventAction->AddEdep2(edepStep);
+  fEventAction->AddPosX2(xyzStep.getX());
+  fEventAction->AddPosY2(xyzStep.getY());
+  fEventAction->AddPosZ2(xyzStep.getZ());
+  }
+  fEventAction->AddEdep(edepStep);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

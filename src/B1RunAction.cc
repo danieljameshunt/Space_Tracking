@@ -62,6 +62,7 @@ B1RunAction::B1RunAction()
 	analysisManager->CreateNtupleDColumn("PosY"); // ID = 4
 	analysisManager->CreateNtupleDColumn("PosZ"); // ID = 4
 	analysisManager->FinishNtuple();
+	analysisManager->OpenFile("Output");
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -100,6 +101,10 @@ void B1RunAction::EndOfRunAction(const G4Run* run)
     G4double particleEnergy = particleGun->GetParticleEnergy();
     runCondition += G4BestUnit(particleEnergy,"Energy");
   }
+
+  G4AnalysisManager* man = G4AnalysisManager::Instance();
+  man->Write();
+  man->CloseFile();
         
   // Print
   //  

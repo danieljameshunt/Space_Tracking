@@ -29,7 +29,7 @@
 
 #include "B1EventAction.hh"
 #include "B1RunAction.hh"
-
+#include "B1Analysis.hh"
 #include "G4Event.hh"
 #include "G4RunManager.hh"
 
@@ -55,7 +55,10 @@ void B1EventAction::BeginOfEventAction(const G4Event*)
 
 void B1EventAction::EndOfEventAction(const G4Event*)
 { 
-  G4cout << "End of Event" << G4endl;  
+  G4cout << "End of Event" << G4endl;
+  G4AnalysisManager* man = G4AnalysisManager::Instance();
+  man->FillNtupleDColumn(1, 0, fEdep);
+  man->AddNtupleRow(1);
   // accumulate statistics in run action
   //fRunAction->AddEdep(fEdep);
   //fRunAction->AddMass(fMass);
